@@ -1,0 +1,27 @@
+<form #form="ngForm" (ngSubmit)="submit(form)">
+    <div>
+        <label for="title">Intitulé</label>
+        <input type="text" name="title" id="title" required maxlength="64" #title="ngModel" ngModel>
+    </div>
+    @if(title.touched && title.invalid){
+        <div>
+            @if (title.errors?.['required']) {
+                L'intitulé est obligatoire.
+            }
+            <!--ce bloc sera jamais lu, maxlength empêche d'entrer plus de caractères dans l'input-->
+            @if (title.errors?.['maxlength']) {
+                L'intitulé peut contenir 64 caractères au maximum.
+            }
+        </div>
+    }
+
+    <div>
+        <label for="description">Description</label>
+        <textarea name="description" id="description" minlength="15" #description="ngModel" ngModel></textarea>
+    </div>
+    @if (description.touched && description.errors?.['minlength']) {
+        <div>La description doit faire au moins 15 caractères.</div>
+    }
+    
+    <button type="submit" [disabled]="form.untouched || form.invalid">Envoyer</button>
+</form>

@@ -1,0 +1,33 @@
+<!-- nous avons créé une variable de template form grâce à la syntaxe #nom. Par défaut, si on ne donne pas de valeur à une variable de template, elle correspond à l'élément html sur lequel elel se trouve. Dans ce cas-ci on demande à ce que notre variable form corresponde au ngForm qui représente notre formulaire.-->
+<form #form="ngForm" (ngSubmit)="submit(form)">
+    <div>
+        <label for="surname">Surnom</label>
+        <!-- on met ngModel pour pouvoir accèder aux info du champ dans l'inspecteur. #surname="ngModel" par contre c'est pour y accèder via le code (ici, le if) --> <!--ngModel fait le lien entre le fonctionnement de base et celui d'angular , angular override le fonctionnement de base-->
+        <input #surname="ngModel" ngModel required type="text" name="surname" id="surname" minlength="3">
+    </div>
+    @if (surname.touched && surname.invalid) {
+        <div class="errors">
+            @if (surname.errors?.['required']) {
+                C'est un champ obligatoire connard
+            }
+
+            @if (surname.errors?.['minlength']) {
+                Faut minimum 3 caractères connard, il t'en manque {{surname.errors?.['minlength'].requiredLength - surname.errors?.['minlength'].actualLength}}
+            }
+        </div>
+    }
+    <div>
+        <label for="email">Email</label>
+        <input pattern="^[\w\-\.]+@([\w\-]+\.)+[\w]{2,4}$" #email="ngModel" ngModel type="text" name="email" id="email">
+    </div>
+    @if(email.invalid) {
+        <div class="errors">
+            Erreur dans l'email
+        </div>
+    }
+    <div>
+        <label for="comment">Commentaire</label>
+        <textarea ngModel name="comment" id="comment" cols="30" rows="10"></textarea>
+    </div>
+    <button [disabled]="form.untouched" type="submit">Envoyer</button>
+</form>

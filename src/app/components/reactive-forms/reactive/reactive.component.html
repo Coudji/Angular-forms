@@ -1,1 +1,85 @@
-<p>reactive works!</p>
+<form [formGroup]="signupForm" (ngSubmit)="submit()">
+    <div>
+        <label for="email"></label>
+        <!--Dans les reactives forms, la propriété name est remplacée par formControlName. C'est elle qui fais le lien avec le nom de la propriété dans le constructeur du formGoup signupForm-->
+        <input type="email" formControlName="email" id="email">
+    </div>
+
+    @if(EmailControl.pending){
+        <div>
+            Loading...
+        </div>
+    }
+
+    @if(EmailControl.invalid){
+        <div>
+            @if (EmailControl.errors?.['actualExtension']) {
+                les adresse en .default sont interdite
+            }
+
+            @if (EmailControl.errors?.['uniqueEmail']) {
+                Votre adresse email n'est pas unique.
+            }
+        </div>
+    }
+
+    <div formGroupName="password">
+        <div>
+            <label for="password">
+                Mot de passe
+            </label>
+            <input type="password" formControlName="field" id="password">
+        </div>
+        <div>
+            <label for="confirm">
+                Confirmation de mot de passe
+            </label>
+            <input type="password" formControlName="confirm" id="confirm">
+        </div>
+        @if (passwordControl.invalid) {
+            <div>
+                Le mot de passe et sa confirmation doivent correspondre
+            </div>
+        }
+    </div>
+
+    <button type="submit" [disabled]="signupForm.invalid">Clic</button>
+</form>
+<hr>
+
+<form [formGroup]="signupExo" (ngSubmit)="submit()">
+    <div>
+        <label for="pseudo">Pseudo:</label>
+        <input type="text" formControlName="pseudo" id="pseudo" required minlength="5">
+    </div>
+    @if (pseudoControl.invalid) {
+        <div>
+            @if (pseudoControl.errors?.['required']) {
+                Le pseudo est requis.
+            }
+
+            @if (pseudoControl.errors?.['invalidPseudo']) {
+                Le pseudo contient un mot interdit.
+            }
+        </div>
+        
+    }
+
+    <div>
+        <label for="">Mot de passe:</label>
+        <input type="password" formControlName="password" id="password" required >
+    </div>
+
+    @if (signupExo.invalid) {
+        <div>
+            @if (exoPasswordControl.errors?.['required']) {
+                Avoir un mot de passe est obligatoire.
+            }
+
+            @if (signupExo.errors?.['invalidPassword']) {
+                Le mot de passe ne peut pas contenir le pseudo utilisé.
+            }
+        </div>
+    }
+    
+</form>

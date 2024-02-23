@@ -54,6 +54,9 @@
     </div>
     @if (pseudoControl.invalid) {
         <div>
+            @if (pseudoControl.errors?.['minlength']){
+                Le pseudo doit faire minimum 5 caractéres
+            }
             @if (pseudoControl.errors?.['required']) {
                 Le pseudo est requis.
             }
@@ -81,5 +84,5 @@
             }
         </div>
     }
-    
+    <button type="submit" [disabled]="signupExo.invalid">Clic</button>
 </form>
